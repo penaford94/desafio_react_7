@@ -94,7 +94,7 @@ const Pizza = () => {
 
               <p>{pizza.desc}</p>
 
-              <h2 className="fs-5 mt-4">
+              <h2 className="fw-bold text-capitalize pizza-title">
                 Ingredientes
               </h2>
 
