@@ -157,3 +157,7 @@ code {
 .app > main {
   flex: 1;
 }
+.active {
+  color: white;
+  font-weight: 300;
+}

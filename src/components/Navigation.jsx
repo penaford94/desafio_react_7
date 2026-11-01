@@ -3,10 +3,12 @@ import { Container, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { CartContext } from "../context/CartContext.jsx";
+import { UserContext } from "../context/UserContext.jsx";
 import { formatCurrency } from "../utils/formatCurrency.js";
 
 const Navigation = () => {
   const { total } = useContext(CartContext);
+  const { token, logout } = useContext(UserContext);
 
   return (
     <Navbar bg="dark" variant="dark">
@@ -22,26 +24,40 @@ const Navigation = () => {
           Home
         </Link>
 
-        <Link
-          to="/login"
-          className="text-white text-decoration-none"
-        >
-          Login
-        </Link>
+        {token ? (
+          <>
+            <Link
+              to="/profile"
+              className="text-white text-decoration-none"
+            >
+              Profile
+            </Link>
 
-        <Link
-          to="/register"
-          className="text-white text-decoration-none"
-        >
-          Register
-        </Link>
+            <button
+              type="button"
+              className="btn btn-outline-light"
+              onClick={logout}
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="text-white text-decoration-none"
+            >
+              Login
+            </Link>
 
-        <Link
-          to="/profile"
-          className="text-white text-decoration-none"
-        >
-          Profile
-        </Link>
+            <Link
+              to="/register"
+              className="text-white text-decoration-none"
+            >
+              Register
+            </Link>
+          </>
+        )}
 
         <Link
           to="/cart"

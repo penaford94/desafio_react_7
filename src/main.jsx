@@ -7,13 +7,16 @@ import "./index.css";
 
 import App from "./App.jsx";
 import CartProvider from "./context/CartProvider.jsx";
+import UserProvider from "./context/UserProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <CartProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </CartProvider>
+    <UserProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </CartProvider>
+    </UserProvider>
   </StrictMode>
 );

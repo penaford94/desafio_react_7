@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../context/UserContext.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [feedback, setFeedback] = useState(null);
+  const { login } = useContext(UserContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,7 +30,7 @@ const Login = () => {
       type: "success",
       message: "¡Inicio de sesión exitoso!",
     });
-
+    login();
     setEmail("");
     setPassword("");
   };

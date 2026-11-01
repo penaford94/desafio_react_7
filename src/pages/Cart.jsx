@@ -1,7 +1,9 @@
-import { useContext } from "react";
+import { useContext, useState} from "react";
 
 import { CartContext } from "../context/CartContext.jsx";
+import { UserContext } from "../context/UserContext.jsx";
 import { formatCurrency } from "../utils/formatCurrency.js";
+
 
 const Cart = () => {
   const {
@@ -10,7 +12,25 @@ const Cart = () => {
     addToCart,
     decreaseQuantity,
     removeFromCart,
+    clearCart,
   } = useContext(CartContext);
+
+  const { token } = useContext(UserContext);
+  const [feedback, setFeedback] = useState(null);
+  
+  const handlePay = (event) => {
+    event.preventDefault();
+    if (!token || cart.length === 0) {
+      return;
+    }
+
+    clearCart();
+    setFeedback({
+      type: "success",
+      message: "¡Pago exitoso! ¡Tu carrito de compras ha sido vaciado para tu proxima compra!",
+    });
+    };
+
 
   return (
     <section className="my-5">
@@ -86,11 +106,36 @@ const Cart = () => {
           </article>
         ))
       )}
+    <form onSubmit={handlePay} noValidate>
+          <h2 className="fs-2 mt-4 cart-total">
+            Total: ${formatCurrency(total)}
+          </h2>
+          <button
+            type="submit"
+            className="btn btn-success mt-3"
+            disabled={!token || cart.length === 0}
+          >
+            Pagar
+          </button>
 
-      <h2 className="fs-2 mt-4 cart-total">
-        Total: ${formatCurrency(total)}
-      </h2>
+    {!token && (
+      <p className="text-secondary mt-2">
+        Debes iniciar sesión para pagar.
+      </p>
+    )}
+    </form>
+    {feedback && (
+    <div
+      className={`alert alert-${feedback.type} mt-4 mb-0`}
+      role="alert"
+    >
+      {feedback.message}
+    </div>
+  )}
     </section>
+  
+
+
   );
 };
 

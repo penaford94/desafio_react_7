@@ -1,4 +1,6 @@
-import { Routes, Route } from 'react-router-dom'
+import { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { UserContext } from "./context/UserContext.jsx";
 
 import Navigation from './components/Navigation.jsx'
 import Home from './pages/Home.jsx'
@@ -12,6 +14,7 @@ import NotFound from './pages/NotFound.jsx'
 import './App.css'
 
 export default function App() {
+  const { token } = useContext(UserContext);
   return (
     <>
       <Navigation />
@@ -19,11 +22,21 @@ export default function App() {
       <main className="container">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={
+              token ? <Navigate to="/" replace />
+                : <Register />
+            } />
+          <Route path="/login" element={
+            token ? <Navigate to="/" replace />
+                : <Login />
+            } />
           <Route path="/cart" element={<Cart />} />
           <Route path="/pizza/:id" element={<Pizza />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={
+              token ? <Profile />
+                : <Navigate to="/login" replace />
+            }
+          />
           <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
